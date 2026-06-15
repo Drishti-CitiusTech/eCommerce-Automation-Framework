@@ -8,98 +8,100 @@ const CheckoutPage = require('../pages/CheckoutPage');
 const ConfirmationPage = require('../pages/ConfirmationPage');
 const testData = require('../test-data/testData.json');
 
-Given('user logs in with valid credentials', async function () {
+Given('User logs in with valid credentials', async function () {
   this.loginPage = new LoginPage(this.page);
   await this.loginPage.navigateToApplication(process.env.BASE_URL);
-  console.log('user navigates to login page with URL: ' + process.env.BASE_URL);
+  console.log(`User navigates to ${process.env.ENVIRONMENT} environment login page: ${process.env.BASE_URL}`);
   await this.loginPage.login(
     testData.validUser.username,
     testData.validUser.password
   );
-  console.log('user added valid credentials');
+  console.log('User added valid credentials with username: ' + testData.validUser.username);
   this.loggedInUser = 'valid';
 });
 
-When('user adds products to cart', async function () {
+When('User adds products to cart', async function () {
   this.productsPage = new ProductsPage(this.page);
   const backpack = await this.productsPage.addBackpackToCart();
-  console.log(`user adds products to cart: ${backpack.name} - ${backpack.price}`);
+  console.log(`User adds ${backpack.name} to cart with price ${backpack.price}`);
   const bikeLight = await this.productsPage.addBikeLightToCart();
-  console.log(`user adds products to cart: ${bikeLight.name} - ${bikeLight.price}`);
+  console.log(`User adds ${bikeLight.name} to cart with price ${bikeLight.price}`);
 });
 
-When('user proceeds to checkout', async function () {
+When('User proceeds to checkout', async function () {
   this.productsPage = new ProductsPage(this.page);
   this.cartPage = new CartPage(this.page);
   await this.productsPage.openCart();
   await this.cartPage.clickCheckout();
-  console.log('user proceeds to checkout');
+  console.log('User proceeds to checkout page and clicks checkout button');
 });
 
-When('user enters customer information', async function () {
+When('User enters customer information', async function () {
   this.checkoutPage = new CheckoutPage(this.page);
   const firstName = testData.checkout.firstName;
   const lastName = testData.checkout.lastName;
   const postalCode = testData.checkout.postalCode;
   await this.checkoutPage.enterCustomerInformation(firstName, lastName, postalCode);
-  console.log(`user enters customer information: ${firstName} ${lastName}, ${postalCode}`);
+  console.log(`User enters customer details: ${firstName} ${lastName}, ${postalCode}`);
 });
 
-Then('user should see correct item total, tax and final total', async function () {
+Then('User should see correct item total, tax and final total', async function () {
   await this.checkoutPage.validateCheckoutTotal();
-  console.log('user should see correct item total, tax and final total');
+  console.log('User should see correct item total, tax and final total ');
 });
 
-When('user completes the order', async function () {
+When('User completes the Order', async function () {
   await this.checkoutPage.finishOrder();
-  console.log('user completes the order');
+  console.log('User completes the Order by clicking finish button');
 });
 
-Then('order confirmation message should be displayed', async function () {
+Then('Order confirmation message should be displayed', async function () {
   this.confirmationPage = new ConfirmationPage(this.page);
   await this.confirmationPage.validateConfirmationMessage();
+  console.log('Confirmation mesage is: Thank you for your order!');
   await this.confirmationPage.validateCompleteText();
-  console.log('order confirmation message should be displayed');
+  console.log('Order confirmation message is : Your order has been dispatched, and will arrive just as fast as the pony can get there!');
 });
 
-Given('user navigates to login page', async function () {
+Given('User navigates to login page', async function () {
   this.loginPage = new LoginPage(this.page);
   await this.loginPage.navigateToApplication(process.env.BASE_URL);
-  console.log('user navigates to login page');
+  console.log(`User navigates to ${process.env.ENVIRONMENT} environment login page: ${process.env.BASE_URL}`);
 });
 
-When('user logs in with locked credentials', async function () {
+When('User logs in with locked credentials', async function () {
   await this.loginPage.loginWithLockedUser(
     testData.lockedUser.username,
     testData.lockedUser.password
   );
-  console.log('user logs in with locked credentials');
+  console.log('User logs in with locked credentials with username: ' + testData.lockedUser.username);
   this.loggedInUser = 'locked';
 });
 
 Then('locked user error message should be displayed', async function () {
   await this.loginPage.validateLockedUserError();
-  console.log('locked user error message should be displayed');
+  console.log('Locked user should see error message: Epic sadface: Sorry, this user has been locked out.');
 });
 
-Given('user logs in with error user credentials', async function () {
+Given('User logs in with error-user credentials', async function () {
   this.loginPage = new LoginPage(this.page);
   await this.loginPage.navigateToApplication(process.env.BASE_URL);
+  console.log(`User navigates to ${process.env.ENVIRONMENT} environment login page: ${process.env.BASE_URL}`);
   await this.loginPage.login(
     testData.errorUser.username,
     testData.errorUser.password
   );
-  console.log('user logs in with error user credentials');
+  console.log('User logs in with error user credentials with username: ' + testData.errorUser.username);
   this.loggedInUser = 'error';
 });
 
-When('user clicks finish button', async function () {
+When('User clicks finish button', async function () {
   this.checkoutPage = new CheckoutPage(this.page);
   const finishLocator = this.page.locator('#finish');
   if (this.loggedInUser === 'error') {
     const enabled = await finishLocator.isEnabled();
     if (!enabled) {
-      console.log('finish button is not clickable and unable to move to next page');
+      console.log('Finish button is not clickable and unable to move to next page for ' + testData.errorUser.username);
     }
     else {
       await finishLocator.click();
@@ -107,20 +109,24 @@ When('user clicks finish button', async function () {
       const currentUrlAfter = this.page.url();
 
       if (currentUrlAfter.includes('checkout-complete.html')) {
-        console.log('user clicks finish button - navigation occurred unexpectedly for error_user');
+        console.log('User clicks finish button - navigation occurred unexpectedly for ' + testData.errorUser.username);
       }
       else {
-        console.log('finish button clicked but unable to move to next page for error_user');
+        console.log('Finish button clicked but unable to move to next page for ' + testData.errorUser.username);
       }
     }
   }
   else {
     await this.checkoutPage.finishOrder();
-    console.log('user clicks finish button');
+    console.log('User clicks finish button to complete the order');
   }
 });
 
-Then('order should not be completed successfully', async function () {
+Then('Last name field should remain blank', async function () {
+  await this.checkoutPage.verifyLastNameFieldIsBlank();
+});
+
+Then('Order should not be completed successfully', async function () {
   const currentUrl = this.page.url();
 
   if (currentUrl.includes('checkout-complete.html')) {
@@ -128,5 +134,5 @@ Then('order should not be completed successfully', async function () {
       'Order completed successfully for error user'
     );
   }
-  console.log('order should not be completed successfully');
+  console.log('Order should not be completed successfully');
 });

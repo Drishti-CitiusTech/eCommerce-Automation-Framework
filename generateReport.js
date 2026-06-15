@@ -19,7 +19,7 @@ reporter.generate({
   customData: {
     title: 'Execution Information',
     data: [
-      { label: 'Project', value: 'SauceDemo E-commerce Checkout Flow' },
+      { label: 'Project', value: 'Checkout Flow of Sauce Labs E-Commerce' },
       { label: 'Framework', value: 'Playwright JavaScript with Cucumber BDD' },
       { label: 'Tester', value: 'Drishti Kashyap' },
       { label: 'Environment', value: process.env.ENVIRONMENT || 'QA' },

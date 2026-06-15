@@ -11,6 +11,8 @@ class CheckoutPage {
         this.taxLabel = '.summary_tax_label';
         this.finalTotalLabel = '.summary_total_label';
     }
+
+    /** Enters customer information on the checkout page and clicks continue */
     async enterCustomerInformation(firstName, lastName, postalCode) {
         await this.page.fill(this.firstNameInput, firstName);
         await this.page.fill(this.lastNameInput, lastName);
@@ -18,11 +20,13 @@ class CheckoutPage {
         await this.page.click(this.continueButton);
     }
 
+    /* Helper method to extract numeric price value from a label text */
     async getPriceValue(locator) {
         const text = await this.page.textContent(locator);
         return parseFloat(text.replace(/[^0-9.]/g, ''));
     }
 
+    /** Validates that the item total, tax and final total are calculated and displayed correctly on the checkout overview page */
     async validateCheckoutTotal() {
         const itemTotal = await this.getPriceValue(this.itemTotalLabel);
         const tax = await this.getPriceValue(this.taxLabel);
@@ -33,10 +37,10 @@ class CheckoutPage {
             expectedTotal,
             `Expected final total ${expectedTotal}, but found ${finalTotal}`
         );
-        // Log computed totals so they appear in the console output
         console.log(`Item total: $${itemTotal.toFixed(2)}, Tax: $${tax.toFixed(2)}, Final total: $${finalTotal.toFixed(2)}`);
     }
 
+    /** Clicks the finish button to complete the order */
     async finishOrder() {
         await this.page.click(this.finishButton);
     }

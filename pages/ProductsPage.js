@@ -9,6 +9,11 @@ class ProductsPage {
         this.productPrice = '.inventory_item_price';
     }
 
+    /**
+     * Get product name and price based on the add to cart button selector, then click the add button
+     * @param {*} addButtonSelector 
+     * @returns 
+     */
     async _getProductInfoAndClick(addButtonSelector) {
         const btnLocator = this.page.locator(addButtonSelector);
         const itemLocator = this.page.locator(`.inventory_item:has(${addButtonSelector})`);
@@ -21,7 +26,6 @@ class ProductsPage {
     async addBackpackToCart() {
         return this._getProductInfoAndClick(this.backpackAddButton);
     }
-
     async addBikeLightToCart() {
         return this._getProductInfoAndClick(this.bikeLightAddButton);
     }

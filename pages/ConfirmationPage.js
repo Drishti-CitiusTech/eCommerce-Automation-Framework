@@ -14,7 +14,6 @@ class ConfirmationPage {
             'Thank you for your order!',
             'Order confirmation message is not correct'
         );
-        // Logging handled in step definitions
     }
 
     /** Validates that the order complete text is displayed correctly */
@@ -25,7 +24,6 @@ class ConfirmationPage {
             'Your order has been dispatched, and will arrive just as fast as the pony can get there!',
             'Order complete text is not correct'
         );
-        // Logging handled in step definitions
     }
 }
 module.exports = ConfirmationPage;
