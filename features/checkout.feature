@@ -49,10 +49,10 @@ Scenario: Verify all products display same image for problem user
     Then All product images should match expected image source
 
 @Negative
-Scenario Outline: Verify login failure with invalid credentials
-   Given User navigates to QA environment login page
-   When User enters username "<username>" and password "<password>"
-   Then Login error message should be displayed
+  Scenario Outline: Verify login failure with invalid credentials
+    Given User navigates to QA environment login page
+    When User enters username "<username>" and password "<password>"
+    Then Login error message should be displayed
 Examples:
 | username         | password      |
 | invalid_user     | secret_sauce  |
@@ -60,3 +60,25 @@ Examples:
 | invalid_user     | wrong_pass    |
 |                  | secret_sauce  |
 | standard_user    |               |
+
+@Smoke
+  Scenario: Add two product to cart
+    Given User logs in with valid credentials
+    When User adds products to cart
+    Then User should see "2" products in the cart
+
+@Regression
+  Scenario: Remove product from inventory page
+    Given User logs in with valid credentials
+    When User adds products to cart
+    And User removes "Sauce Labs Backpack" products from cart
+    Then User should see "1" products in the cart
+  
+@Smoke
+  Scenario: Verify Add To Cart button changes to Remove
+    Given User logs in with valid credentials
+    When User adds products to cart
+    Then Button should display "Remove"
+
+
+

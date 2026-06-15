@@ -201,8 +201,7 @@ Given('User navigates to QA environment login page', async function () {
   this.loginPage = new LoginPage(this.page);
   await this.loginPage.navigateToApplication(process.env.BASE_URL);
   console.log(`User navigates to ${process.env.ENVIRONMENT} environment login page: ${process.env.BASE_URL}`);
-}
-);
+});
 
 When('User enters username {string} and password {string}', async function (username, password) {
   await this.loginPage.login(username, password);
@@ -223,4 +222,23 @@ Then('Login error message should be displayed', async function () {
   if (!matched) {
     throw new Error('Unexpected login error message: ' + errorMessage);
   }
+});
+
+Then('User should see {string} products in the cart', async function (numberOfCartItems) {
+  this.cartPage = new CartPage(this.page);
+  const cartCount = await this.cartPage.getCartCount();
+  expect(cartCount).toBe(numberOfCartItems);
+  console.log(`Total Items in the Cart: ${cartCount}`);
+});
+
+When('User removes {string} products from cart', async function (productnName) {
+  this.cartPage = new CartPage(this.page);
+  await this.cartPage.removeProductFromCart(productnName);
+  console.log(`User removes ${productnName} from cart`);
+});
+
+Then('Button should display {string}', async function (expectedText) {
+  const actualText = await this.productsPage.getProductButtonText('Sauce Labs Backpack');
+  expect(actualText.trim()).toBe(expectedText);
+  console.log(`User should see ${actualText} button`);
 });

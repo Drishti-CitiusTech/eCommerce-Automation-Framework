@@ -10,6 +10,8 @@ class ProductsPage {
         this.productPrice = '.inventory_item_price';
         this.productImages = '.inventory_item_img img';
         this.sortDropdown = '.product_sort_container';
+        this.productImageTag = 'img';
+        this.productItemButton = 'button';
     }
 
     /**
@@ -130,14 +132,14 @@ class ProductsPage {
      * @param {Object} expectedImages - An object mapping product names to their expected image sources
      * */
     async verifyProductImagesMatchExpectedSrc(expectedImages) {
-        const products = await this.page.locator('[data-test="inventory-item"]').all();
+        const products = await this.page.locator(this.productContainer).all();
         const mismatches = [];
         for (const product of products) {
             const productName = (await product
-                .locator('[data-test="inventory-item-name"]')
+                .locator(this.productName)
                 .textContent()).trim();
             await this.page.waitForTimeout(250);
-            const imageSrc = await product.locator('img').getAttribute('src');
+            const imageSrc = await product.locator(this.productImageTag).getAttribute('src');
             const expectedImage = expectedImages[productName];
             if (!imageSrc || !expectedImage || !imageSrc.includes(expectedImage)) {
                 mismatches.push({ productName, expectedImage, imageSrc });
@@ -149,6 +151,19 @@ class ProductsPage {
             console.log(`Verified: Product '${m.productName}' image source does not match expected source as per test data`);
             console.log(`Expected image source to include: '${m.expectedImage}', but found: '${m.imageSrc}'`);
         }
+    }
+
+    /**
+     * Get text of the product button
+     * @param {*} productName 
+     * @returns 
+     */
+    async getProductButtonText(productName) {
+        const product = this.page.locator(
+            this.productContainer,
+            { hasText: productName }
+        );
+        return await product.locator(this.productItemButton).textContent();
     }
 }
 module.exports = ProductsPage;

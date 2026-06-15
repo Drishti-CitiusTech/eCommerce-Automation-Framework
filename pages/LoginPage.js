@@ -32,9 +32,9 @@ class LoginPage {
    * @param {*} password 
    */
   async loginWithLockedUser(username, password) {
-    await this.page.fill('#user-name', username);
-    await this.page.fill('#password', password);
-    await this.page.click('#login-button');
+    await this.page.fill(this.usernameInput, username);
+    await this.page.fill(this.passwordInput, password);
+    await this.page.click(this.loginButton);
   }
 
   /** Validates that the error message displayed for a locked user is correct */
