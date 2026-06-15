@@ -3,7 +3,8 @@ class CartPage {
         this.page = page;
         this.checkoutButton = '#checkout';
         this.cartBadge = '[data-test="shopping-cart-badge"]';
-        this.inventoryItemSelector = '.inventory_item';
+        // cart page items use '.cart_item' selector
+        this.productItemSelector = '.cart_item';
         this.removeButtonSelector = 'button:has-text("Remove")';
     }
 
@@ -27,7 +28,7 @@ class CartPage {
      * @param {*} productName 
      */
     async removeProductFromCart(productName) {
-        const productLocator = this.page.locator(`${this.inventoryItemSelector}:has-text("${productName}")`);
+        const productLocator = this.page.locator(`${this.productItemSelector}:has-text("${productName}")`);
         const removeButton = productLocator.locator(this.removeButtonSelector);
         if (await removeButton.isVisible()) {
             await removeButton.click();

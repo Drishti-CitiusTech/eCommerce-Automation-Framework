@@ -155,7 +155,7 @@ Then('All products should display the same image', async function () {
   await this.productsPage.verifyAllProductsHaveSameImage();
 });
 
-Then('All products should display the different image', async function () {
+Then('All products should display different images', async function () {
   this.productsPage = new ProductsPage(this.page);
   await this.productsPage.verifyAllProductsHaveDifferentImage();
 });
@@ -232,13 +232,90 @@ Then('User should see {string} products in the cart', async function (numberOfCa
 });
 
 When('User removes {string} products from cart', async function (productnName) {
-  this.cartPage = new CartPage(this.page);
-  await this.cartPage.removeProductFromCart(productnName);
-  console.log(`User removes ${productnName} from cart`);
+  // Try to remove from products page first, otherwise remove from cart page
+  this.productsPage = new ProductsPage(this.page);
+  const inventoryProduct = this.page.locator(`${this.productsPage.productContainer}:has-text("${productnName}")`);
+  const invRemoveButton = inventoryProduct.locator('button:has-text("Remove")');
+  if (await invRemoveButton.count() > 0 && await invRemoveButton.isVisible()) {
+    await invRemoveButton.click();
+    console.log(`Removed '${productnName}' product from inventory`);
+  } else {
+    this.cartPage = new CartPage(this.page);
+    await this.cartPage.removeProductFromCart(productnName);
+    console.log(`User removes ${productnName} from cart`);
+  }
 });
 
 Then('Button should display {string}', async function (expectedText) {
   const actualText = await this.productsPage.getProductButtonText('Sauce Labs Backpack');
   expect(actualText.trim()).toBe(expectedText);
   console.log(`User should see ${actualText} button`);
+});
+
+When('User refreshes the page', async function () {
+  await this.page.reload();
+  await this.page.waitForLoadState('networkidle');
+  console.log('User refreshed the page');
+});
+
+Then('Added products should still be present in cart', async function () {
+  this.cartPage = new CartPage(this.page);
+  const cartCount = await this.cartPage.getCartCount();
+  if (!cartCount || cartCount === '') {
+    throw new Error('Cart is empty after refresh');
+  }
+  console.log(`Cart retained items after refresh: ${cartCount}`);
+});
+
+When('User logs out from application', async function () {
+  // Open the menu and click logout (Sauce Demo selectors)
+  const menuBtn = this.page.locator('#react-burger-menu-btn');
+  await menuBtn.click();
+  const logoutLink = this.page.locator('#logout_sidebar_link');
+  await logoutLink.click();
+  await this.page.waitForLoadState('networkidle');
+  console.log('User logged out from application');
+});
+
+Then('User should be redirected to login page', async function () {
+  this.loginPage = new LoginPage(this.page);
+  const url = this.page.url();
+  const loginVisible = await this.page.locator(this.loginPage.loginButton).isVisible();
+  if (!loginVisible) {
+    throw new Error('Login page is not displayed after logout: ' + url);
+  }
+  console.log('User redirected to login page:', url);
+});
+
+When('User navigates back', async function () {
+  await this.page.goBack();
+  await this.page.waitForLoadState('networkidle');
+  console.log('User navigated back');
+});
+
+Then('User should return to cart page with items intact', async function () {
+  // verify current url and cart contents
+  const url = this.page.url();
+  if (!url.includes('cart.html')) {
+    throw new Error('Did not return to cart page, current url: ' + url);
+  }
+  this.cartPage = new CartPage(this.page);
+  const cartCount = await this.cartPage.getCartCount();
+  if (!cartCount || cartCount === '') {
+    throw new Error('Cart items not intact after navigating back');
+  }
+  console.log('Returned to cart with items intact:', cartCount);
+});
+
+When('User navigates to cart', async function () {
+  this.productsPage = new ProductsPage(this.page);
+  await this.productsPage.openCart();
+  console.log('User navigated to cart');
+});
+
+Then('Cart should be empty', async function () {
+  this.cartPage = new CartPage(this.page);
+  const cartCount = await this.cartPage.getCartCount();
+  expect(cartCount).toBe('');
+  console.log('Cart is empty');
 });

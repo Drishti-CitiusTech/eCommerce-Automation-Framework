@@ -33,7 +33,7 @@ Scenario: Verify all products display same image for problem user
 @Smoke
   Scenario: Verify all products display different image for valid user
     Given User logs in with valid credentials
-    Then All products should display the different image
+    Then All products should display different images
 
 @Smoke
   Scenario: Verify product sorting options for standard user
@@ -62,7 +62,7 @@ Examples:
 | standard_user    |               |
 
 @Smoke
-  Scenario: Add two product to cart
+  Scenario: Add two products to cart
     Given User logs in with valid credentials
     When User adds products to cart
     Then User should see "2" products in the cart
@@ -79,3 +79,33 @@ Examples:
     Given User logs in with valid credentials
     When User adds products to cart
     Then Button should display "Remove"
+
+@Regression
+  Scenario: Verify cart retains items after page refresh
+    Given User logs in with valid credentials
+    When User adds products to cart
+    And User refreshes the page
+    Then Added products should still be present in cart
+
+@Smoke
+  Scenario: Verify user is logged out successfully
+    Given User logs in with valid credentials
+    When User logs out from application
+    Then User should be redirected to login page
+
+@Regression
+  Scenario: Verify back navigation from checkout page
+    Given User logs in with valid credentials
+    When User adds products to cart
+    And User proceeds to checkout
+    And User navigates back
+    Then User should return to cart page with items intact
+
+@Regression
+  Scenario: Remove product from cart page
+    Given User logs in with valid credentials
+    When User adds products to cart
+    And User navigates to cart
+    And User removes "Sauce Labs Backpack" products from cart
+    And User removes "Sauce Labs Bike Light" products from cart
+    Then Cart should be empty
