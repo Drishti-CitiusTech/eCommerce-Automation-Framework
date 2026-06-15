@@ -58,7 +58,7 @@ jobs:
 
      - name: Generate HTML report
        if: always()
-       run: npm run report
+       run: npx cross-env BROWSER=${{ github.event.inputs.browser || 'chromium' }} npm run report
 
      - name: Upload HTML report
        if: always()
