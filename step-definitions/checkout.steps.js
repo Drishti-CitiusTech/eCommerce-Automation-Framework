@@ -11,11 +11,12 @@ const testData = require('../test-data/testData.json');
 Given('user logs in with valid credentials', async function () {
   this.loginPage = new LoginPage(this.page);
   await this.loginPage.navigateToApplication(process.env.BASE_URL);
+  console.log('user navigates to login page with URL: ' + process.env.BASE_URL);
   await this.loginPage.login(
     testData.validUser.username,
     testData.validUser.password
   );
-  console.log('user logs in with valid credentials');
+  console.log('user added valid credentials');
   this.loggedInUser = 'valid';
 });
 
