@@ -6,17 +6,26 @@ on:
  pull_request:
    branches: [ main, master ]
  workflow_dispatch:
-   inputs:
-     browser:
-       description: 'Select browser'
-       required: true
-       default: 'chrome'
-       type: choice
-       options:
-         - chrome
-         - edge
-         - firefox
-         - webkit
+ inputs:
+   browser:
+     description: 'Select browser'
+     required: true
+     default: 'chromium'
+     type: choice
+     options:
+       - chromium
+       - edge
+       - firefox
+       - webkit
+       
+   executionMode:
+     description: 'Execution Mode'
+     required: true
+     default: 'sequential'
+     type: choice
+     options:
+       - sequential
+       - parallel
 
 jobs:
  test:
@@ -37,8 +46,16 @@ jobs:
      - name: Install Playwright browsers
        run: npx playwright install --with-deps
 
+    #  - name: Run Cucumber tests
+    #    run: npm run test:${{ github.event.inputs.browser || 'chrome' }}
+
      - name: Run Cucumber tests
-       run: npm run test:${{ github.event.inputs.browser || 'chrome' }}
+       run: |
+        if [ "${{ github.event.inputs.executionMode }}" = "parallel" ]; then
+          npx cross-env BROWSER=${{ github.event.inputs.browser }} npm test -- --parallel 3
+        else
+          npx cross-env BROWSER=${{ github.event.inputs.browser }} npm test
+        fi
 
      - name: Generate HTML report
        if: always()
