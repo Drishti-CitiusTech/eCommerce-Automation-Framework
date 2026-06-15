@@ -13,6 +13,9 @@
     "test:edge": "cross-env BROWSER=edge npm run test",
     "test:firefox": "cross-env BROWSER=firefox npm run test",
     "test:webkit": "cross-env BROWSER=webkit npm run test",
+    "test:qa": "cross-env TEST_ENV=qa npm test",
+    "test:uat": "cross-env TEST_ENV=uat npm test",
+    "test:prod": "cross-env TEST_ENV=prod npm test",
     "report": "node generateReport.js"
   },
   "keywords": [],

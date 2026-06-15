@@ -25,6 +25,15 @@ on:
      options:
        - sequential
        - parallel
+   environment:
+     description: 'Select environment'
+     required: true
+     default: 'qa'
+     type: choice
+     options:
+       - qa
+       - uat
+       - prod
 
 jobs:
  test:
@@ -45,9 +54,6 @@ jobs:
      - name: Install Playwright browsers
        run: npx playwright install --with-deps
 
-    #  - name: Run Cucumber tests
-    #    run: npm run test:${{ github.event.inputs.browser || 'chrome' }}
-
      - name: Run Cucumber tests
        run: |
         if [ "${{ github.event.inputs.executionMode }}" = "parallel" ]; then
@@ -58,7 +64,7 @@ jobs:
 
      - name: Generate HTML report
        if: always()
-       run: npx cross-env BROWSER=${{ github.event.inputs.browser || 'chromium' }} npm run report
+       run: npx cross-env TEST_ENV=${{ github.event.inputs.environment || 'qa' }} BROWSER=${{ github.event.inputs.browser || 'chromium' }} npm run report
 
      - name: Upload HTML report
        if: always()
