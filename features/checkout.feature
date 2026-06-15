@@ -14,7 +14,7 @@ Feature: Validate Checkout Flow of Sauce Labs E-Commerce Application
   Scenario: Login with locked User
     Given User navigates to login page
     When User logs in with locked credentials
-    Then locked user error message should be displayed
+    Then Locked user error message should be displayed
 
 @Regression
   Scenario: Verify checkout failure for error User

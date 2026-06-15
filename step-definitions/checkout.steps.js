@@ -79,7 +79,7 @@ When('User logs in with locked credentials', async function () {
   this.loggedInUser = 'locked';
 });
 
-Then('locked user error message should be displayed', async function () {
+Then('Locked user error message should be displayed', async function () {
   await this.loginPage.validateLockedUserError();
   console.log('Locked user should see error message: Epic sadface: Sorry, this user has been locked out.');
 });
