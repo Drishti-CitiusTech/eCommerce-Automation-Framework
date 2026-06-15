@@ -57,9 +57,9 @@ jobs:
      - name: Run Cucumber tests
        run: |
         if [ "${{ github.event.inputs.executionMode }}" = "parallel" ]; then
-          npx cross-env BROWSER=${{ github.event.inputs.browser }} npm test -- --parallel 3
+          npx cross-env TEST_ENV=${{ github.event.inputs.environment || 'qa' }} BROWSER=${{ github.event.inputs.browser || 'chromium' }} npm test -- --parallel 3
         else
-          npx cross-env BROWSER=${{ github.event.inputs.browser }} npm test
+          npx cross-env TEST_ENV=${{ github.event.inputs.environment || 'qa' }} BROWSER=${{ github.event.inputs.browser || 'chromium' }} npm test
         fi
 
      - name: Generate HTML report
