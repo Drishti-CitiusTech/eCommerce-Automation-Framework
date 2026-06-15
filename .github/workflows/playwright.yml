@@ -17,7 +17,7 @@ on:
        - edge
        - firefox
        - webkit
- executionMode:
+   executionMode:
      description: 'Execution Mode'
      required: true
      default: 'sequential'
