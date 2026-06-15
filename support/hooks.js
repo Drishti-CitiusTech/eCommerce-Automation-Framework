@@ -4,6 +4,9 @@ const fs = require('fs');
 
 setDefaultTimeout(60 * 1000); // Set default timeout to 60 seconds
 
+/** Before hook to logs the scenario name and associated tags to the console for better traceability 
+    @param {Object} scenario - The scenario object provided by Cucumber 
+*/
 Before(function (scenario) {
     const tags = scenario.pickle.tags.map(t => t.name).join(", ");
     console.log("\n================================================");
