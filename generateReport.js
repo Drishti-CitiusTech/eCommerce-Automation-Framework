@@ -1,4 +1,7 @@
 const reporter = require('multiple-cucumber-html-reporter');
+const env = process.env.TEST_ENV || 'qa'; // Default to 'qa' if TEST_ENV is not set
+require('dotenv').config({ path: `config/${env}.env` });
+
 reporter.generate({
   jsonDir: 'reports',
   reportPath: 'reports/html-report',
@@ -18,8 +21,8 @@ reporter.generate({
     data: [
       { label: 'Project', value: 'SauceDemo E-commerce Checkout Flow' },
       { label: 'Framework', value: 'Playwright JavaScript with Cucumber BDD' },
-      { label: 'Developer/Tester', value: 'Drishti Kashyap' },
-      { label: 'Environment', value: process.env.ENVIRONMENT },
+      { label: 'Tester', value: 'Drishti Kashyap' },
+      { label: 'Environment', value: process.env.ENVIRONMENT || 'QA' },
       { label: 'Browser', value: process.env.BROWSER || 'Chromium' },
       { label: 'Execution Type', value: process.env.CI ? 'GitHub Actions CI' : 'Local Execution' },
       { label: 'Execution Date', value: new Date().toLocaleString() }
