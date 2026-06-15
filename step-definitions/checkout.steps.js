@@ -13,10 +13,10 @@ Given('User logs in with valid credentials', async function () {
   await this.loginPage.navigateToApplication(process.env.BASE_URL);
   console.log(`User navigates to ${process.env.ENVIRONMENT} environment login page: ${process.env.BASE_URL}`);
   await this.loginPage.login(
-    testData.validUser.username,
-    testData.validUser.password
+    testData.users.validUser,
+    testData.password
   );
-  console.log('User added valid credentials with username: ' + testData.validUser.username);
+  console.log('User added valid credentials with username: ' + testData.users.validUser);
   this.loggedInUser = 'valid';
 });
 
@@ -71,10 +71,10 @@ Given('User navigates to login page', async function () {
 
 When('User logs in with locked credentials', async function () {
   await this.loginPage.loginWithLockedUser(
-    testData.lockedUser.username,
-    testData.lockedUser.password
+    testData.users.lockedUser,
+    testData.password
   );
-  console.log('User logs in with locked credentials with username: ' + testData.lockedUser.username);
+  console.log('User logs in with locked credentials with username: ' + testData.users.lockedUser);
   this.loggedInUser = 'locked';
 });
 
@@ -88,10 +88,10 @@ Given('User logs in with error-user credentials', async function () {
   await this.loginPage.navigateToApplication(process.env.BASE_URL);
   console.log(`User navigates to ${process.env.ENVIRONMENT} environment login page: ${process.env.BASE_URL}`);
   await this.loginPage.login(
-    testData.errorUser.username,
-    testData.errorUser.password
+    testData.users.errorUser,
+    testData.password
   );
-  console.log('User logs in with error user credentials with username: ' + testData.errorUser.username);
+  console.log('User logs in with error user credentials with username: ' + testData.users.errorUser);
   this.loggedInUser = 'error';
 });
 
@@ -101,7 +101,7 @@ When('User clicks finish button', async function () {
   if (this.loggedInUser === 'error') {
     const enabled = await finishLocator.isEnabled();
     if (!enabled) {
-      console.log('Finish button is not clickable and unable to move to next page for ' + testData.errorUser.username);
+      console.log('Finish button is not clickable and unable to move to next page for ' + testData.users.errorUser);
     }
     else {
       await finishLocator.click();
@@ -109,10 +109,10 @@ When('User clicks finish button', async function () {
       const currentUrlAfter = this.page.url();
 
       if (currentUrlAfter.includes('checkout-complete.html')) {
-        console.log('User clicks finish button - navigation occurred unexpectedly for ' + testData.errorUser.username);
+        console.log('User clicks finish button - navigation occurred unexpectedly for ' + testData.users.errorUser);
       }
       else {
-        console.log('Finish button clicked but unable to move to next page for ' + testData.errorUser.username);
+        console.log('Finish button clicked but unable to move to next page for ' + testData.users.errorUser);
       }
     }
   }
@@ -135,4 +135,63 @@ Then('Order should not be completed successfully', async function () {
     );
   }
   console.log('Order should not be completed successfully');
+});
+
+Given('User logs in as problem-user credentials', async function () {
+  this.loginPage = new LoginPage(this.page);
+  await this.loginPage.navigateToApplication(process.env.BASE_URL);
+  console.log(`User navigates to ${process.env.ENVIRONMENT} environment login page: ${process.env.BASE_URL}`);
+  await this.loginPage.login(
+    testData.users.problemUser,
+    testData.password
+  );
+  console.log('User logs in with problem user credentials with username: ' + testData.users.problemUser);
+  this.loggedInUser = 'problem';
+});
+
+Then('All products should display the same image', async function () {
+  this.productsPage = new ProductsPage(this.page);
+  await this.productsPage.verifyAllProductsHaveSameImage();
+});
+
+Then('All products should display the different image', async function () {
+  this.productsPage = new ProductsPage(this.page);
+  await this.productsPage.verifyAllProductsHaveDifferentImage();
+});
+
+Then('Products should be sorted by name A to Z', async function () {
+  this.productsPage = new ProductsPage(this.page);
+  await this.productsPage.verifySortingByNameAscending();
+});
+
+Then('Products should be sorted by name Z to A', async function () {
+  this.productsPage = new ProductsPage(this.page);
+  await this.productsPage.verifySortingByNameDescending();
+});
+
+Then('Products should be sorted by price low to high', async function () {
+  this.productsPage = new ProductsPage(this.page);
+  await this.productsPage.verifySortingByPriceLowToHigh();
+});
+
+Then('Products should be sorted by price high to low', async function () {
+  this.productsPage = new ProductsPage(this.page);
+  await this.productsPage.verifySortingByPriceHighToLow();
+});
+
+Given('User logs in as visual-user credentials', async function () {
+  this.loginPage = new LoginPage(this.page);
+  await this.loginPage.navigateToApplication(process.env.BASE_URL);
+  console.log(`User navigates to ${process.env.ENVIRONMENT} environment login page: ${process.env.BASE_URL}`);
+  await this.loginPage.login(
+    testData.users.visualUser,
+    testData.password
+  );
+  console.log('User logs in with visual user credentials with username: ' + testData.users.visualUser);
+  this.loggedInUser = 'visual';
+});
+ 
+Then('All product images should match expected image source', async function () {
+  this.productsPage = new ProductsPage(this.page);
+  await this.productsPage.verifyProductImagesMatchExpectedSrc(testData.expectedProductImages);
 });

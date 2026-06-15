@@ -1,19 +1,12 @@
 {
-  "validUser": {
-    "username": "standard_user",
-    "password": "secret_sauce"
-  },
-  "lockedUser": {
-    "username": "locked_out_user",
-    "password": "secret_sauce"
-  },
-  "errorUser": {
-    "username": "error_user",
-    "password": "secret_sauce"
-  },
-  "invalidUser": {
-    "username": "invalid_user",
-    "password": "invalid_password"
+  "password": "secret_sauce",
+  "users": {
+    "validUser": "standard_user",
+    "lockedUser": "locked_out_user",
+    "errorUser": "error_user",
+    "problemUser": "problem_user",
+    "visualUser": "visual_user",
+    "performanceGlitchUser": "performance_glitch_user"
   },
   "checkout": {
     "firstName": "Marina",
@@ -23,5 +16,13 @@
   "products": {
     "backpack": "Sauce Labs Backpack",
     "bikeLight": "Sauce Labs Bike Light"
+  },
+  "expectedProductImages": {
+    "Sauce Labs Backpack": "sauce-backpack",
+    "Sauce Labs Bike Light": "bike-light",
+    "Sauce Labs Bolt T-Shirt": "bolt-shirt",
+    "Sauce Labs Fleece Jacket": "sauce-pullover",
+    "Sauce Labs Onesie": "red-onesie",
+    "Test.allTheThings() T-Shirt (Red)": "red-tatt"
   }
 }
