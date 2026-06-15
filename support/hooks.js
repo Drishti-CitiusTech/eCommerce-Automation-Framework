@@ -4,6 +4,14 @@ const fs = require('fs');
 
 setDefaultTimeout(60 * 1000); // Set default timeout to 60 seconds
 
+Before(function (scenario) {
+    const tags = scenario.pickle.tags.map(t => t.name).join(", ");
+    console.log("\n================================================");
+    console.log(`SCENARIO : ${scenario.pickle.name}`);
+    console.log(`TAGS     : ${tags}`);
+    console.log("================================================\n");
+});
+
 /**
  * Before hook to launch browser and create a new page context
  */
