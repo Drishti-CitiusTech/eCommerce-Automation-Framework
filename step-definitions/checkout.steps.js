@@ -7,6 +7,7 @@ const CartPage = require('../pages/CartPage');
 const CheckoutPage = require('../pages/CheckoutPage');
 const ConfirmationPage = require('../pages/ConfirmationPage');
 const testData = require('../test-data/testData.json');
+const { expect } = require('playwright/test');
 
 Given('User logs in with valid credentials', async function () {
   this.loginPage = new LoginPage(this.page);
@@ -190,8 +191,36 @@ Given('User logs in as visual-user credentials', async function () {
   console.log('User logs in with visual user credentials with username: ' + testData.users.visualUser);
   this.loggedInUser = 'visual';
 });
- 
+
 Then('All product images should match expected image source', async function () {
   this.productsPage = new ProductsPage(this.page);
   await this.productsPage.verifyProductImagesMatchExpectedSrc(testData.expectedProductImages);
+});
+
+Given('User navigates to QA environment login page', async function () {
+  this.loginPage = new LoginPage(this.page);
+  await this.loginPage.navigateToApplication(process.env.BASE_URL);
+  console.log(`User navigates to ${process.env.ENVIRONMENT} environment login page: ${process.env.BASE_URL}`);
+}
+);
+
+When('User enters username {string} and password {string}', async function (username, password) {
+  await this.loginPage.login(username, password);
+  console.log(`User enters username: ${username} and password: ${password}`);
+  await this.page.waitForTimeout(500);
+});
+
+Then('Login error message should be displayed', async function () {
+  const errorMessage = await this.loginPage.getLoginErrorMessage();
+  console.log('Login Error:', errorMessage);
+  // support multiple possible error messages depending on invalid input
+  const allowed = [
+    'Username and password do not match any user in this service',
+    'Username is required',
+    'Password is required'
+  ];
+  const matched = allowed.some(sub => errorMessage.includes(sub));
+  if (!matched) {
+    throw new Error('Unexpected login error message: ' + errorMessage);
+  }
 });

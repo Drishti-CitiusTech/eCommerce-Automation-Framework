@@ -47,3 +47,16 @@ Scenario: Verify all products display same image for problem user
   Scenario: Verify product images are correctly mapped for visual user
     Given User logs in as visual-user credentials
     Then All product images should match expected image source
+
+@Negative
+Scenario Outline: Verify login failure with invalid credentials
+   Given User navigates to QA environment login page
+   When User enters username "<username>" and password "<password>"
+   Then Login error message should be displayed
+Examples:
+| username         | password      |
+| invalid_user     | secret_sauce  |
+| standard_user    | wrong_pass    |
+| invalid_user     | wrong_pass    |
+|                  | secret_sauce  |
+| standard_user    |               |

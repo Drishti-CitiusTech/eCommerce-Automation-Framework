@@ -48,5 +48,9 @@ class LoginPage {
     }
   }
 
-}
+  /** Retrieves the error message displayed on the login page */
+  async getLoginErrorMessage() {
+      return await this.page.locator(this.errorMessage).textContent();
+    }
+  }
 module.exports = LoginPage;
