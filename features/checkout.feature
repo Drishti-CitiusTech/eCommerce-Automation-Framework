@@ -79,6 +79,3 @@ Examples:
     Given User logs in with valid credentials
     When User adds products to cart
     Then Button should display "Remove"
-
-
-

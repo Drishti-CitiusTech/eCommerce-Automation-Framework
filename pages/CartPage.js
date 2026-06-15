@@ -31,9 +31,9 @@ class CartPage {
         const removeButton = productLocator.locator(this.removeButtonSelector);
         if (await removeButton.isVisible()) {
             await removeButton.click();
-            console.log(`Removed product '${productName}' from cart`);
+            console.log(`Removed '${productName}' product from cart`);
         } else {
-            console.log(`Remove button not found for product '${productName}'`);
+            console.log(`Remove button not found for '${productName}' product`);
         }
     }
 }
