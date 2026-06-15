@@ -14,11 +14,15 @@ reporter.generate({
    }
  },
  customData: {
-   title: 'Execution Info',
-   data: [
-     { label: 'Project', value: 'SauceDemo E-commerce Checkout Flow' },
-     { label: 'Framework', value: 'Playwright JavaScript with Cucumber BDD' },
-     { label: 'Execution Type', value: 'Local Execution' }
-   ]
- }
+ title: 'Execution Information',
+ data: [
+   { label: 'Project', value: 'SauceDemo E-commerce Checkout Flow' },
+   { label: 'Framework', value: 'Playwright JavaScript with Cucumber BDD' },
+   { label: 'Developer/Tester', value: 'Drishti Kashyap' },
+   { label: 'Environment', value: 'QA' },
+   { label: 'Browser', value: process.env.BROWSER || 'Chromium' },
+   { label: 'Execution Type', value: process.env.CI ? 'GitHub Actions CI' : 'Local Execution' },
+   { label: 'Execution Date', value: new Date().toLocaleString() }
+ ]
+}
 });
