@@ -9,7 +9,7 @@ setDefaultTimeout(60 * 1000); // Set default timeout to 60 seconds
  */
 Before(async function () {
     this.browser = await chromium.launch({
-        headless: false,
+        headless: process.env.CI ? true : false,
         slowMo: 200
     });
     this.context = await this.browser.newContext();
