@@ -6,7 +6,7 @@ on:
  pull_request:
    branches: [ main, master ]
  workflow_dispatch:
- inputs:
+  inputs:
    browser:
      description: 'Select browser'
      required: true
@@ -17,8 +17,7 @@ on:
        - edge
        - firefox
        - webkit
-       
-   executionMode:
+ executionMode:
      description: 'Execution Mode'
      required: true
      default: 'sequential'
