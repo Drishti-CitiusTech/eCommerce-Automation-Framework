@@ -1,0 +1,27 @@
+{
+  "name": "ecommerce",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "cucumber-js features/**/*.feature --require step-definitions/**/*.js --require support/**/*.js --format json:reports/cucumber-report.json",
+    "test:negative": "cucumber-js features/**/*.feature --require step-definitions/**/*.js --require support/**/*.js --tags @Negative --format json:reports/cucumber-report.json",
+    "test:smoke": "cucumber-js features/**/*.feature --require step-definitions/**/*.js --require support/**/*.js --tags @Smoke --format json:reports/cucumber-report.json",
+    "test:regression": "cucumber-js features/**/*.feature --require step-definitions/**/*.js --require support/**/*.js --tags @Regression --format json:reports/cucumber-report.json",
+    "test:parallel": "cucumber-js features/**/*.feature --require step-definitions/**/*.js --require support/**/*.js --parallel 3 --format json:reports/cucumber-report.json",
+    "report": "node generateReport.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@cucumber/cucumber": "^13.0.0",
+    "dotenv": "^17.4.2",
+    "playwright": "^1.60.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "multiple-cucumber-html-reporter": "^3.10.0"
+  }
+}
