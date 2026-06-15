@@ -5,6 +5,18 @@ on:
    branches: [ main, master ]
  pull_request:
    branches: [ main, master ]
+ workflow_dispatch:
+   inputs:
+     browser:
+       description: 'Select browser'
+       required: true
+       default: 'chrome'
+       type: choice
+       options:
+         - chrome
+         - edge
+         - firefox
+         - webkit
 
 jobs:
  test:
@@ -26,7 +38,7 @@ jobs:
        run: npx playwright install --with-deps
 
      - name: Run Cucumber tests
-       run: npm test
+       run: npm run test:${{ github.event.inputs.browser || 'chrome' }}
 
      - name: Generate HTML report
        if: always()

@@ -33,6 +33,6 @@ class LoginPage {
     }
     // Keep validation but logging will be handled in step definitions
   }
-  
+
 }
 module.exports = LoginPage;
