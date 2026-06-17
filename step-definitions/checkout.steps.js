@@ -1,5 +1,12 @@
 const { Given, When, Then } = require('@cucumber/cucumber');
-require('dotenv').config({ path: 'config/.env' });
+const { expect } = require('playwright/test');
+
+const selectedEnv = process.env.TEST_ENV || 'qa';
+require('dotenv').config();
+require('dotenv').config({
+  path: `config/${selectedEnv}.env`
+});
+const baseUrl = process.env.BASE_URL;
 
 const LoginPage = require('../pages/LoginPage');
 const ProductsPage = require('../pages/ProductsPage');
@@ -7,12 +14,11 @@ const CartPage = require('../pages/CartPage');
 const CheckoutPage = require('../pages/CheckoutPage');
 const ConfirmationPage = require('../pages/ConfirmationPage');
 const testData = require('../test-data/testData.json');
-const { expect } = require('playwright/test');
 
 Given('User logs in with valid credentials', async function () {
   this.loginPage = new LoginPage(this.page);
-  await this.loginPage.navigateToApplication(process.env.BASE_URL);
-  console.log(`User navigates to ${process.env.ENVIRONMENT} environment login page: ${process.env.BASE_URL}`);
+  await this.loginPage.navigateToApplication(baseUrl);
+  console.log(`User navigates to ${selectedEnv} environment login page: ${baseUrl}`);
   await this.loginPage.login(
     process.env.VALID_USERNAME,
     process.env.APP_PASSWORD
@@ -66,8 +72,8 @@ Then('Order confirmation message should be displayed', async function () {
 
 Given('User navigates to login page', async function () {
   this.loginPage = new LoginPage(this.page);
-  await this.loginPage.navigateToApplication(process.env.BASE_URL);
-  console.log(`User navigates to ${process.env.ENVIRONMENT} environment login page: ${process.env.BASE_URL}`);
+  await this.loginPage.navigateToApplication(baseUrl);
+  console.log(`User navigates to ${selectedEnv} environment login page: ${baseUrl}`);
 });
 
 When('User logs in with locked credentials', async function () {
@@ -86,8 +92,8 @@ Then('Locked user error message should be displayed', async function () {
 
 Given('User logs in with error-user credentials', async function () {
   this.loginPage = new LoginPage(this.page);
-  await this.loginPage.navigateToApplication(process.env.BASE_URL);
-  console.log(`User navigates to ${process.env.ENVIRONMENT} environment login page: ${process.env.BASE_URL}`);
+  await this.loginPage.navigateToApplication(baseUrl);
+  console.log(`User navigates to ${selectedEnv} environment login page: ${baseUrl}`);
   await this.loginPage.login(
     process.env.ERROR_USERNAME,
     process.env.APP_PASSWORD
@@ -140,8 +146,8 @@ Then('Order should not be completed successfully', async function () {
 
 Given('User logs in as problem-user credentials', async function () {
   this.loginPage = new LoginPage(this.page);
-  await this.loginPage.navigateToApplication(process.env.BASE_URL);
-  console.log(`User navigates to ${process.env.ENVIRONMENT} environment login page: ${process.env.BASE_URL}`);
+  await this.loginPage.navigateToApplication(baseUrl);
+  console.log(`User navigates to ${selectedEnv} environment login page: ${baseUrl}`);
   await this.loginPage.login(
     process.env.PROBLEM_USERNAME,
     process.env.APP_PASSWORD
@@ -182,8 +188,8 @@ Then('Products should be sorted by price high to low', async function () {
 
 Given('User logs in as visual-user credentials', async function () {
   this.loginPage = new LoginPage(this.page);
-  await this.loginPage.navigateToApplication(process.env.BASE_URL);
-  console.log(`User navigates to ${process.env.ENVIRONMENT} environment login page: ${process.env.BASE_URL}`);
+  await this.loginPage.navigateToApplication(baseUrl);
+  console.log(`User navigates to ${selectedEnv} environment login page: ${baseUrl}`);
   await this.loginPage.login(
     process.env.VISUAL_USERNAME,
     process.env.APP_PASSWORD
@@ -199,8 +205,8 @@ Then('All product images should match expected image source', async function () 
 
 Given('User navigates to QA environment login page', async function () {
   this.loginPage = new LoginPage(this.page);
-  await this.loginPage.navigateToApplication(process.env.BASE_URL);
-  console.log(`User navigates to ${process.env.ENVIRONMENT} environment login page: ${process.env.BASE_URL}`);
+  await this.loginPage.navigateToApplication(baseUrl);
+  console.log(`User navigates to ${selectedEnv} environment login page: ${baseUrl}`);
 });
 
 When('User enters username {string} and password {string}', async function (username, password) {
