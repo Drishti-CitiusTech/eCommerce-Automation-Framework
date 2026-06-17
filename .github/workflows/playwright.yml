@@ -39,6 +39,15 @@ jobs:
  test:
    runs-on: ubuntu-latest
 
+   env:
+      APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
+      VALID_USERNAME: ${{ secrets.VALID_USERNAME }}
+      LOCKED_USERNAME: ${{ secrets.LOCKED_USERNAME }}
+      ERROR_USERNAME: ${{ secrets.ERROR_USERNAME }}
+      PROBLEM_USERNAME: ${{ secrets.PROBLEM_USERNAME }}
+      VISUAL_USERNAME: ${{ secrets.VISUAL_USERNAME }}
+      PERFORMANCEGLITCH_USERNAME: ${{ secrets.PERFORMANCEGLITCH_USERNAME }}
+      
    steps:
      - name: Checkout source code
        uses: actions/checkout@v4

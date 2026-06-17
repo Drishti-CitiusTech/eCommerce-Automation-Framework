@@ -14,10 +14,10 @@ Given('User logs in with valid credentials', async function () {
   await this.loginPage.navigateToApplication(process.env.BASE_URL);
   console.log(`User navigates to ${process.env.ENVIRONMENT} environment login page: ${process.env.BASE_URL}`);
   await this.loginPage.login(
-    testData.users.validUser,
-    testData.password
+    process.env.VALID_USERNAME,
+    process.env.APP_PASSWORD
   );
-  console.log('User added valid credentials with username: ' + testData.users.validUser);
+  console.log('User added valid credentials with username: ' + process.env.VALID_USERNAME);
   this.loggedInUser = 'valid';
 });
 
@@ -72,10 +72,10 @@ Given('User navigates to login page', async function () {
 
 When('User logs in with locked credentials', async function () {
   await this.loginPage.loginWithLockedUser(
-    testData.users.lockedUser,
-    testData.password
+    process.env.LOCKED_USERNAME,
+    process.env.APP_PASSWORD
   );
-  console.log('User logs in with locked credentials with username: ' + testData.users.lockedUser);
+  console.log('User logs in with locked credentials with username: ' + process.env.LOCKED_USERNAME);
   this.loggedInUser = 'locked';
 });
 
@@ -89,10 +89,10 @@ Given('User logs in with error-user credentials', async function () {
   await this.loginPage.navigateToApplication(process.env.BASE_URL);
   console.log(`User navigates to ${process.env.ENVIRONMENT} environment login page: ${process.env.BASE_URL}`);
   await this.loginPage.login(
-    testData.users.errorUser,
-    testData.password
+    process.env.ERROR_USERNAME,
+    process.env.APP_PASSWORD
   );
-  console.log('User logs in with error user credentials with username: ' + testData.users.errorUser);
+  console.log('User logs in with error user credentials with username: ' + process.env.ERROR_USERNAME);
   this.loggedInUser = 'error';
 });
 
@@ -102,7 +102,7 @@ When('User clicks finish button', async function () {
   if (this.loggedInUser === 'error') {
     const enabled = await finishLocator.isEnabled();
     if (!enabled) {
-      console.log('Finish button is not clickable and unable to move to next page for ' + testData.users.errorUser);
+      console.log('Finish button is not clickable and unable to move to next page for ' + process.env.ERROR_USERNAME);
     }
     else {
       await finishLocator.click();
@@ -110,10 +110,10 @@ When('User clicks finish button', async function () {
       const currentUrlAfter = this.page.url();
 
       if (currentUrlAfter.includes('checkout-complete.html')) {
-        console.log('User clicks finish button - navigation occurred unexpectedly for ' + testData.users.errorUser);
+        console.log('User clicks finish button - navigation occurred unexpectedly for ' + process.env.ERROR_USERNAME);
       }
       else {
-        console.log('Finish button clicked but unable to move to next page for ' + testData.users.errorUser);
+        console.log('Finish button clicked but unable to move to next page for ' + process.env.ERROR_USERNAME);
       }
     }
   }
@@ -143,10 +143,10 @@ Given('User logs in as problem-user credentials', async function () {
   await this.loginPage.navigateToApplication(process.env.BASE_URL);
   console.log(`User navigates to ${process.env.ENVIRONMENT} environment login page: ${process.env.BASE_URL}`);
   await this.loginPage.login(
-    testData.users.problemUser,
-    testData.password
+    process.env.PROBLEM_USERNAME,
+    process.env.APP_PASSWORD
   );
-  console.log('User logs in with problem user credentials with username: ' + testData.users.problemUser);
+  console.log('User logs in with problem user credentials with username: ' + process.env.PROBLEM_USERNAME);
   this.loggedInUser = 'problem';
 });
 
@@ -185,10 +185,10 @@ Given('User logs in as visual-user credentials', async function () {
   await this.loginPage.navigateToApplication(process.env.BASE_URL);
   console.log(`User navigates to ${process.env.ENVIRONMENT} environment login page: ${process.env.BASE_URL}`);
   await this.loginPage.login(
-    testData.users.visualUser,
-    testData.password
+    process.env.VISUAL_USERNAME,
+    process.env.APP_PASSWORD
   );
-  console.log('User logs in with visual user credentials with username: ' + testData.users.visualUser);
+  console.log('User logs in with visual user credentials with username: ' + process.env.VISUAL_USERNAME);
   this.loggedInUser = 'visual';
 });
 

@@ -1,13 +1,4 @@
 {
-  "password": "secret_sauce",
-  "users": {
-    "validUser": "standard_user",
-    "lockedUser": "locked_out_user",
-    "errorUser": "error_user",
-    "problemUser": "problem_user",
-    "visualUser": "visual_user",
-    "performanceGlitchUser": "performance_glitch_user"
-  },
   "checkout": {
     "firstName": "Marina",
     "lastName": "Slovic",

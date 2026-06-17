@@ -3,4 +3,5 @@ reports/
 screenshots/
 playwright-report/
 test-results/
-.env
+.env*
+*.env
