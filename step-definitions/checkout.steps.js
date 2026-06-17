@@ -3,15 +3,7 @@ const { expect } = require('playwright/test');
 
 const selectedEnv = process.env.TEST_ENV || 'qa';
 require('dotenv').config({ path: `config/${selectedEnv}.env` });
-const pipelineBaseUrlMap = {
-  qa: process.env.QA_BASE_URL,
-  uat: process.env.UAT_BASE_URL,
-  prod: process.env.PROD_BASE_URL
-};
-const baseUrl = process.env.BASE_URL || pipelineBaseUrlMap[selectedEnv];
-if (!baseUrl) {
-  throw new Error(`BASE_URL not found for environement: ${selectedEnv}`);
-}
+const baseUrl = process.env.BASE_URL || process.env[`${selectedEnv.toUpperCase()}_BASE_URL`];
 
 const LoginPage = require('../pages/LoginPage');
 const ProductsPage = require('../pages/ProductsPage');
