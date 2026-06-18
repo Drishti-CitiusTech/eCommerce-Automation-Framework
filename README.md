@@ -1,11 +1,15 @@
 # Playwright Cucumber BDD Automation Framework
 
+![Playwright](https://img.shields.io/badge/Playwright-JavaScript-green)
+![Cucumber](https://img.shields.io/badge/Cucumber-BDD-brightgreen)
+![CI](https://img.shields.io/badge/GitHub%20Actions-CI-blue)
+
 ## Overview
 This project is an End-to-End UI Automation Framework developed using Playwright JavaScript and Cucumber BDD for Sauce Labs E-Commerce application.
 The framework follows Page Object Model (POM) design pattern and supports:
 - Cross Browser Testing
 - Parallel Execution
-- Environment Configuration (QA / UAT / PROD)
+- Dynamic Environment Selection (QA / UAT / PROD)
 - GitHub Actions CI/CD Integration
 - HTML Reporting
 - Secure Credential Management using GitHub Secrets
@@ -100,6 +104,17 @@ TEST_ENV=uat
 TEST_ENV=prod
 ```
 
+---
+
+## Security
+
+- Environment configuration files (config/*.env) are excluded from source control using .gitignore.
+- Credentials are stored securely using GitHub Secrets.
+- Environment URLs are managed through GitHub Variables.
+- Sensitive information is never committed to the repository.
+
+Note: Actual environment files are ignored and are maintained locally or through CI/CD configuration.
+ 
 ---
 ## GitHub Actions Pipeline
 Supports:
