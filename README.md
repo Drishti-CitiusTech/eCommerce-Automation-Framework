@@ -46,6 +46,30 @@ Reusable page classes for better maintainability.
 ### Parallel Execution
 Supports parallel test execution to reduce execution time.
 
+## Test Coverage
+
+### Login Scenarios
+- ✔ Standard User Login
+- ✔ Locked User Login
+- ✔ Error User Login
+
+### Cart Scenarios
+- ✔ Add Products to Cart
+- ✔ Remove Products from Cart
+- ✔ Cart Validation
+- ✔ Cart Persistence After Refresh
+
+### Checkout Scenarios
+- ✔ Successful Checkout
+- ✔ Checkout Information Validation
+- ✔ Order Confirmation Validation
+
+### Product Scenarios
+- ✔ Product Sorting Validation
+- ✔ Product Image Validation
+- ✔ Visual User Validation
+- ✔ Problem User Validation
+
 ### Reporting
 - JSON Report
 - Multiple Cucumber HTML Report
@@ -64,17 +88,39 @@ GitHub Actions Pipeline supports:
 ## Project Structure
 ```text
 ECommerce-Automation-Framework
-├── .github/workflows        # GitHub Actions pipeline
+│
+├── .github/workflows        # GitHub Actions CI/CD pipeline
+├── config                   # Environment configuration files
 ├── features                 # Cucumber feature files
-├── pages                    # Page Object Model classes files
-├── step-definitions         # Cucumber step definitions files
-├── support                  # Hooks and world setup files 
+│   ├── login.feature
+│   ├── cart.feature
+│   ├── checkout.feature
+│   └── products.feature
+│
+├── pages                    # Page Object Model classes 
+│   ├── LoginPage.js
+│   ├── ProductsPage.js
+│   ├── CartPage.js
+│   ├── CheckoutPage.js
+│   └── ConfirmationPage.js
+│
+├── step-definitions         # Cucumber step definitions
+│   ├── login.steps.js
+│   ├── cart.steps.js
+│   ├── checkout.steps.js
+│   └── products.steps.js
+│
+├── support                  # Hooks and framework utilities
 ├── test-data                # Test data files
 ├── reports                  # JSON and HTML reports
 ├── screenshots              # Failure screenshots
+│
 ├── generateReport.js        # HTML report generation
 ├── package.json             # Project dependencies and scripts
-└── playwright.config.js     # Playwright configuration
+├── package-lock.json        # Dependency lock file
+├── playwright.config.js     # Playwright configuration
+├── .gitignore               # Git ignore rules
+└── README.md                # Project documentation
 ```
 
 ---
@@ -99,9 +145,10 @@ npm run test:parallel
 
 ## Environment Configuration
 ```bash
-TEST_ENV=qa
-TEST_ENV=uat
-TEST_ENV=prod
+$env:TEST_ENV="qa"; npm run test:smoke
+$env:TEST_ENV="uat"; npm run test:negative
+$env:TEST_ENV="prod"; npm run test:regresion
+$env:TEST_ENV="qa"; $env:BROWSER="FIREFOX"; npm run test:smoke
 ```
 
 ---
@@ -119,7 +166,7 @@ Note: Actual environment files are ignored and are maintained locally or through
 ## GitHub Actions Pipeline
 Supports:
 - QA / UAT / PROD
-- Chromium / Firefox / WebKit
+- Chromium / Firefox / Edge / WebKit
 - Sequential Execution
 - Parallel Execution
 ---
