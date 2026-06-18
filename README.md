@@ -59,13 +59,18 @@ GitHub Actions Pipeline supports:
 
 ## Project Structure
 ```text
-.github/workflows
-features
-pages
-step-definitions
-support
-test-data
-reports
+ECommerce-Automation-Framework
+├── .github/workflows        # GitHub Actions pipeline
+├── features                 # Cucumber feature files
+├── pages                    # Page Object Model classes files
+├── step-definitions         # Cucumber step definitions files
+├── support                  # Hooks and world setup files 
+├── test-data                # Test data files
+├── reports                  # JSON and HTML reports
+├── screenshots              # Failure screenshots
+├── generateReport.js        # HTML report generation
+├── package.json             # Project dependencies and scripts
+└── playwright.config.js     # Playwright configuration
 ```
 
 ---
